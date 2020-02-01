@@ -54,6 +54,14 @@ const styles = StyleSheet.create({
       fontSize: 16,
       color: "#FFF",
       fontWeight: "bold",
+    },
+    picker: {
+      fontSize: 16,
+      color: "#000",
+      fontWeight: "bold",
+      flexDirection: "row",
+      justifyContent: "space-around",
+      alignItems: "center",
     }
   });
 

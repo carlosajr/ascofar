@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, StyleSheet, Image, TextInput, Text, ScrollView, TouchableOpacity} from 'react-native';
+import {View, Picker, StyleSheet, Image, TextInput, Text, ScrollView, TouchableOpacity, CheckBox } from 'react-native';
 
 import styles from '../styles/Registrar';
 import api from '../services/Api';
@@ -39,6 +39,19 @@ export default class Registrar extends Component{
       .catch(function (error) {
         console.log(error);
       })
+  }
+
+  renderInputField() {
+    if(this.state.doenca === 'Sim'){
+      return (
+        <TextInput
+          style={styles.input}
+          placeholder="Doença"
+          onChangeText={ doenca => this.setState({ doenca }) }
+        />
+        
+      )
+    }
   }
 
   render() {
@@ -85,17 +98,35 @@ export default class Registrar extends Component{
           placeholder="Data de Nascimento"
           onChangeText={ datanasc => this.setState({ datanasc }) }
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Aposentado"
-          onChangeText={ aposentado => this.setState({ aposentado }) }
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Toma algum medicamento?"
-          onChangeText={ toma_medicamento => this.setState({ toma_medicamento }) }
-        />
+        <View style={styles.picker}>
+          <Text>Aposentado?</Text>
+        <Picker
+  selectedValue={this.state.aposentado}
+  style={{height: 50, width: 100}}
+  onValueChange={(aposentado, itemIndex) =>
+    this.setState({aposentado: aposentado})
+  }>
+  <Picker.Item label="" value="" />
+  <Picker.Item label="Sim" value="Sim" />
+  <Picker.Item label="Não" value="Não" />
+</Picker>
+</View>
 
+<View style={styles.picker}>
+          <Text>Toma algum medicamento?</Text>
+<Picker
+  selectedValue={this.state.doenca}
+  style={{height: 50, width: 100}}
+  onValueChange={(toma_medicamento, itemIndex) =>
+    this.setState({doenca: toma_medicamento})
+  }>
+  <Picker.Item label="" value="" />
+  <Picker.Item label="Sim" value="Sim" />
+  <Picker.Item label="Não" value="Não" />
+</Picker>
+</View>
+        {this.renderInputField()}
+        
         <TouchableOpacity
           style={styles.botao}
           onPress={ () => {this.formulario()} }
