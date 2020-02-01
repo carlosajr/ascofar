@@ -22,17 +22,17 @@ export default class Registrar extends Component{
     
     
     var params = new URLSearchParams();
-    //params.append('logar', true);
-    params.append(nome);
-    params.append(endereco);
-    params.append(bairro);
-    params.append(telefone);
-    params.append(cidade);
-    params.append(datanasc);
-    params.append(aposentado);
-    params.append(toma_medicamento);
+    params.append('registrar', true);
+    params.append('nome', nome);
+    params.append('endereco', endereco);
+    params.append('bairro',bairro);
+    params.append('telefone',telefone);
+    params.append('cidade',cidade);
+    params.append('datanasc',datanasc);
+    params.append('aposentado',aposentado);
+    params.append('toma_medicamento',toma_medicamento);
   
-    api.post('api/login.php?', params)
+    api.post('api/registrar.php?', params)
       .then(async function (response) {
         console.log(response);
       })
@@ -79,11 +79,6 @@ export default class Registrar extends Component{
           style={styles.input}
           placeholder="Cidade"
           onChangeText={ cidade => this.setState({ cidade }) }
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Telefone"
-          onChangeText={ telefone => this.setState({ telefone }) }
         />
         <TextInput
           style={styles.input}
