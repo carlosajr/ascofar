@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {View,Text, Image, TextInput, TouchableOpacity, Alert, AsyncStorage, Keyboard} from 'react-native';
 
 import styles from '../styles/Login';
+import api from '../services/Api';
 
 export default class Login extends Component{
   
@@ -21,30 +22,49 @@ export default class Login extends Component{
       Alert.alert("Vida & Saude", "Preencha os Campos");
     
     }else{
+      
+      var that = this;
+      
+      var params = new URLSearchParams();
+      params.append('logar', true);
+      params.append('usuario', usuario);
+      params.append('senha', senha);
 
-      let response = await fetch('https://devcarlos.tk/ascofar/api/login.php?logar=true&usuario='+usuario+'&senha='+senha);
-      let responseJson = await response.json();
-
-      if(responseJson.status == "OK"){
-
-        if(responseJson.logado == "true"){
+      api.post('api/login.php?', params)
+      .then(async function (response) {
+        console.log(response);
         
-          try{
-            await AsyncStorage.setItem("ASCOFAR_app_usuario", this.state.usuario)
-            await AsyncStorage.setItem("ASCOFAR_app_senha", this.state.senha)
+        if(response.data.status == "OK"){
 
-            this.props.navigation.navigate('Home')
-
-          }catch (e){
-            alert(e);
+          if(response.data.logado == "true"){
+          
+            try{
+              await AsyncStorage.setItem("ASCOFAR_app_usuario", usuario);
+              await AsyncStorage.setItem("ASCOFAR_app_senha", senha);
+  
+              that.props.navigation.navigate('Home');
+  
+            }catch (e){
+              console.log("Erro no try do assync storage");
+              alert(e);
+            }
+  
+          }else{
+            Alert.alert("Vida & Saude", "Usuario ou senha incorretos");
           }
-
         }else{
-          Alert.alert("Vida & Saude", "Usuario ou senha incorretos");
+          Alert.alert("Vida & Saude", "Houve um erro de conexão");
         }
-      }else{
-        Alert.alert("Vida & Saude", "Houve um erro de conexão");
-      }
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+
+      //let response = await fetch('https://devcarlos.tk/ascofar/api/login.php?logar=true&usuario='+usuario+'&senha='+senha);
+      //let responseJson = await response.json();
+
+      
 
     }
 
