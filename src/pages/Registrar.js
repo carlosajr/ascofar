@@ -82,11 +82,6 @@ export default class Registrar extends Component{
         />
         <TextInput
           style={styles.input}
-          placeholder="Telefone"
-          onChangeText={ telefone => this.setState({ telefone }) }
-        />
-        <TextInput
-          style={styles.input}
           placeholder="Data de Nascimento"
           onChangeText={ datanasc => this.setState({ datanasc }) }
         />
